@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const apiurl = "http://ec2-35-171-147-180.compute-1.amazonaws.com"
+
 class Clock extends React.Component {
     constructor(props) {
         super(props);
@@ -83,8 +85,69 @@ class MagicTable extends React.Component{
     }
 }
 
+class GetRequest extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            totalReactPackages: null
+        };
+    }
+
+    componentDidMount() {
+        // Simple GET request using fetch
+        fetch('https://ec2-35-171-147-180.compute-1.amazonaws.com/helloWorld', {
+            mode: "cors",
+            method: "GET",
+            headers: {
+                "loo": "loo"
+            },
+        })
+          .then(response => response.json())
+          .then((data) => console.log('This is your data: ', data));
+    }
+
+    render() {
+        //const { totalReactPackages } = this.state;
+        return (
+            <div className="card text-center m-3">
+                <h5 className="card-header">Simple GET Request</h5>
+                <div className="card-body">
+
+                </div>
+            </div>
+        );
+    }
+}
+
+class POSTRequest extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    async componentDidMount() {
+        // POST request using fetch with async/await
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'React POST Request Example' })
+        };
+        const response = await fetch(apiurl + "/helloWorld", requestOptions);
+        const data = await response.json();
+        this.setState({ postId: data.id });
+    }
+
+    render() {
+        return (
+            <div/>
+            );
+    }
+}
+
+export { GetRequest };
+
 ReactDOM.render(
-  <MagicTable/>,
+  <POSTRequest/>,
   document.getElementById('root')
 );
 
