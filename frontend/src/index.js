@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const apiurl = "http://ec2-35-171-147-180.compute-1.amazonaws.com"
+const apiurl = "http://ec2-35-171-147-180.compute-1.amazonaws.com/api"
 
 class Clock extends React.Component {
     constructor(props) {
@@ -96,7 +96,7 @@ class GetRequest extends React.Component {
 
     componentDidMount() {
         // Simple GET request using fetch
-        fetch('https://ec2-35-171-147-180.compute-1.amazonaws.com/helloWorld', {
+        fetch('http://ec2-35-171-147-180.compute-1.amazonaws.com/api/helloWorld', {
             mode: "cors",
             method: "GET",
             headers: {
@@ -113,7 +113,6 @@ class GetRequest extends React.Component {
             <div className="card text-center m-3">
                 <h5 className="card-header">Simple GET Request</h5>
                 <div className="card-body">
-
                 </div>
             </div>
         );
@@ -144,12 +143,72 @@ class POSTRequest extends React.Component{
     }
 }
 
+class SearchApp extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    renderShit = () => {
+        return(
+        <div>
+                test
+            </div>
+        );
+    }
+
+    render(){
+        return(
+            <div id="test">
+                <h1>Welcome to the meal search app</h1>
+
+                <input name="text" type="text" placeholder="Search" />
+
+                <button>Search</button>
+
+                <GetIndexButton/>
+
+                {this.renderShit()}
+
+            </div>
+        );
+    }
+}
+
+class GetIndexButton extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    getIndex(){
+        fetch('http://127.0.0.1:8000/api/app/index', {
+            mode: "cors",
+            method: "GET",
+            headers: {
+                "loo": "loo"
+            },
+        })
+            //.then(response => response.json())
+            .then((data) => console.log('This is your data: ', data));
+    }
+
+    render(){
+        return(
+            <button onClick={(e) => this.getIndex(e)}>
+                Get Index
+            </button>
+        );
+    }
+}
+
 export { GetRequest };
 
+
 ReactDOM.render(
-  <POSTRequest/>,
-  document.getElementById('root')
+    <SearchApp/>,
+    document.getElementById('root')
 );
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
