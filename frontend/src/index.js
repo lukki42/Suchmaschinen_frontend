@@ -146,14 +146,30 @@ class POSTRequest extends React.Component{
 class SearchApp extends React.Component{
     constructor(props) {
         super(props);
+
+        this.state = {value: ''}
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    renderShit = () => {
-        return(
-        <div>
-                test
-            </div>
-        );
+    textInput = "";
+
+    handleChange(event){
+        this.setState({value: event.target.value});
+        this.textInput = event.target.value;
+    }
+
+    getSearchedItems(textBox){
+
+        fetch('http://127.0.0.1:8000/api/app/search/' + this.textInput, {
+            mode: "cors",
+            method: "GET",
+            headers: {
+                "loo": "loo"
+            },
+        })
+            .then(response => response.json())
+            .then((data) => console.log('This is your data: ', data));
     }
 
     render(){
@@ -161,13 +177,11 @@ class SearchApp extends React.Component{
             <div id="test">
                 <h1>Welcome to the meal search app</h1>
 
-                <input name="text" type="text" placeholder="Search" />
+                <input name="textBox" type="text" value={this.state.value} onChange={this.handleChange} placeholder="Search" />
 
-                <button>Search</button>
+                <button onClick={(e) => this.getSearchedItems(e)}>Search</button>
 
                 <GetIndexButton/>
-
-                {this.renderShit()}
 
             </div>
         );
@@ -187,7 +201,7 @@ class GetIndexButton extends React.Component{
                 "loo": "loo"
             },
         })
-            //.then(response => response.json())
+            .then(response => response.json())
             .then((data) => console.log('This is your data: ', data));
     }
 
@@ -200,8 +214,7 @@ class GetIndexButton extends React.Component{
     }
 }
 
-export { GetRequest };
-
+//export { GetRequest };
 
 ReactDOM.render(
     <SearchApp/>,
