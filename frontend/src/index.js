@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Axios from "axios";
 import reportWebVitals from './reportWebVitals';
 
 const apiurl = "http://ec2-35-171-147-180.compute-1.amazonaws.com/api"
@@ -143,6 +144,59 @@ class POSTRequest extends React.Component{
     }
 }
 
+class Filter extends React.Component{
+    constructor(props) {
+        super(props);
+    }
+
+    mydata;
+
+    myFetch = () => {
+        /*
+        fetch('http://127.0.0.1:8000/api/app/document/filters', {
+            mode: "cors",
+            method: "GET",
+            headers: {
+                "loo": "loo",
+                "filter": this.filterBy
+            },
+        })
+            .then(response => {
+                console.log(response)
+            });
+            //.then((data) => console.log('This is your data: ', data));*/
+
+            /*
+            ("http://127.0.0.1:8000/api/app/document/filters").then(
+                (response) => {
+                    console.log(response);
+                }
+            );*/
+
+            Axios.get("http://127.0.0.1:8000/api/app/document/filters").then(
+                (response) => {
+                    //console.log(response);
+                    this.mydata = response.data;
+                }
+            );
+
+
+    }
+
+    componentDidMount() {
+        this.myFetch();
+        console.log(this.mydata);
+    }
+
+    render() {
+        return(
+            <div>
+                LOO
+            </div>
+        );
+    }
+}
+
 class SearchApp extends React.Component{
     constructor(props) {
         super(props);
@@ -153,6 +207,7 @@ class SearchApp extends React.Component{
     }
 
     textInput = "";
+    filterBy = "";
 
     handleChange(event){
         this.setState({value: event.target.value});
@@ -161,11 +216,12 @@ class SearchApp extends React.Component{
 
     getSearchedItems(textBox){
 
-        fetch('http://127.0.0.1:8000/api/app/search/' + this.textInput, {
+        fetch('http://127.0.0.1:8000/api/app/documents/search/' + this.textInput, {
             mode: "cors",
             method: "GET",
             headers: {
-                "loo": "loo"
+                "loo": "loo",
+                "filter": this.filterBy
             },
         })
             .then(response => response.json())
@@ -174,8 +230,8 @@ class SearchApp extends React.Component{
 
     render(){
         return(
-            <div id="test">
-                <h1>Welcome to the meal search app</h1>
+            <div id="test12">
+                <h1>Welcome to the Games search app</h1>
 
                 <input name="textBox" type="text" value={this.state.value} onChange={this.handleChange} placeholder="Search" />
 
@@ -183,6 +239,7 @@ class SearchApp extends React.Component{
 
                 <GetIndexButton/>
 
+                  <Filter/>
             </div>
         );
     }
