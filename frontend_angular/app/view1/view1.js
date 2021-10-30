@@ -35,7 +35,8 @@ angular.module('myApp.view1', ['ngRoute'])
           var parent = document.getElementById("1337");
 
           var node = document.createElement("div");
-          node.id = "game:" + toString($scope.cnt);
+          node.id = "game:" + $scope.cnt;
+          console.log(node.id);
           node.textContent += value._source.ResponseName;
 
           parent.appendChild(node);
@@ -46,6 +47,8 @@ angular.module('myApp.view1', ['ngRoute'])
           var node = document.createElement("li");
           node.id = "futz";
           node.textContent += "FUTZ";
+
+          parent.appendChild(node);
 
       });
   } ;

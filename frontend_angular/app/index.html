@@ -15,11 +15,13 @@
   <script src="lib/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
-<div id="div1">
+<div id="div1" ng-controller="AppCtrl">
   <h1>Welcome to the Games search app</h1>
 
   <div ng-view></div>
 
+  <button ng-click="createIndex()">Create Index</button>
+  <button ng-click="deleteIndex()">Delete Index</button>
 </div>
 
   <!-- In production use:
